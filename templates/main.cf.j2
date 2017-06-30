@@ -11,11 +11,11 @@ myhostname = {{ fqdn }}
 ## Mail-Queue Einstellungen
 ##
 
-maximal_queue_lifetime = {{ max_queue_life }}
-bounce_queue_lifetime = {{ bnc_queue_life }}
-maximal_backoff_time = {{ max_backoff_time }}
-minimal_backoff_time = {{ min_backoff_time }}
-queue_run_delay = {{ queue_run_delay }}
+maximal_queue_lifetime = {{ postfix_max_queue_life }}
+bounce_queue_lifetime = {{ postfix_bnc_queue_life }}
+maximal_backoff_time = {{ postfix_max_backoff_time }}
+minimal_backoff_time = {{ postfix_min_backoff_time }}
+postfix_queue_run_delay = {{ postfix_queue_run_delay }}
 
 
 ##

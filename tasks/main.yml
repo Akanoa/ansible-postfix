@@ -19,7 +19,7 @@
   file: path=/etc/postfix owner=postfix state=directory
 
 - name: Create Application Database
-  mysql_db: name={{ sql_dovecot_db }} state=present
+  mysql_db: name={{ postfix_sql_db }} state=present
   notify:
     - Copy database dump file
     - Dump Initial Schema to Database
@@ -28,7 +28,7 @@
   meta: flush_handlers
 
 - name: Generate dovecot SQL User
-  mysql_user: login_user=root login_password={{ sql_root_password }} name={{ sql_dovecot_user }} password={{ sql_dovecot_user_password }} priv='{{ sql_dovecot_db }}.*:ALL' host=localhost state=present
+  mysql_user: login_user=root login_password={{ postfix_sql_root_password }} name={{ postfix_sql_user }} password={{ postfix_sql_user_password }} priv='{{ postfix_sql_db }}.*:ALL' host=localhost state=present
 
 - name: Add our postfix main.cf
   template: src=main.cf.j2 dest=/etc/postfix/main.cf

@@ -16,7 +16,7 @@
 
 - name: Dump Initial Schema to Database
   mysql_db:
-    name: "{{ sql_dovecot_db }}"
+    name: "{{ postfix_sql_db }}"
     state: import
     target: /tmp/initial-schema.sql
 

@@ -38,7 +38,9 @@ submission inet n       -       n       -       -       smtpd
     -o smtpd_helo_required=no
     -o smtpd_helo_restrictions=
 # Workaround because Ubuntu 16.04 only has amavisd-milter < 1.6.1. 1.6.1 is needed for the ORIGINATING "tag"
-    -o smtpd_milter=opendkim.socket
+    {% if postfix_submission_milters %} 
+    -o smtpd_milters={{ postfix_submission_milters }}
+    {% endif %}
 #   -o milter_macro_daemon_name=ORIGINATING
     -o cleanup_service_name=submission-header-cleanup
 ###

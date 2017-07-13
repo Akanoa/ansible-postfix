@@ -30,16 +30,16 @@
 - name: Generate dovecot SQL User
   mysql_user: login_user=root login_password={{ postfix_sql_root_password }} name={{ postfix_sql_user }} password={{ postfix_sql_user_password }} priv='{{ postfix_sql_db }}.*:ALL' host=localhost state=present
 
-- name: Add our postfix main.cf
-  template: src=main.cf.j2 dest=/etc/postfix/main.cf
+- name: Add our postfix main.cf and master.cf
+  template: src={{ item }}.j2 dest=/etc/postfix/{{ item }}
   notify:
     - restart postfix
-
-- name: Add our postfix master.cf
-  copy: src=etc/postfix/{{ item }} dest=/etc/postfix/{{ item }} owner={{ postfix_user }} group={{ postfix_group }} mode=0664
   with_items:
     - master.cf
-    - submission_header_cleanup
+    - main.cf
+
+- name: Add our submission_header_cleanup file
+  copy: src=etc/postfix/submission_header_cleanup dest=/etc/postfix/submission_header_cleanup owner={{ postfix_user }} group={{ postfix_group }} mode=0664
   notify:
     - restart postfix
 

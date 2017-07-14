@@ -1,5 +1,5 @@
-#Ansible role to set up a postfix server
-##Usage
+# Ansible role to set up a postfix server
+## Usage
 To use this role, the following variables **must** be set:
 - `postfix_hostname`: the FQDN of the mail server
 - `postfix_dh_path`: path to the Diffie-Hellman file (can be generated via `openssl dhparam -out /etc/postfix/dh2048.pem 2048`)

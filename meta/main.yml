@@ -18,6 +18,5 @@ galaxy_info:
     - postfix
     
 dependencies:
-    - { role: ROCK5GmbH.dbserver }
-    - { role: ROCK5GmbH.ssl }
-
+    - ROCK5GmbH.dbserver
+    - ROCK5GmbH.ssl

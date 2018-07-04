@@ -14,11 +14,11 @@ smtp      inet  n       -       n       -       1       postscreen
 smtpd     pass  -       -       n       -       -       smtpd
     -o smtpd_sasl_auth_enable=no
 ###
-### dnsblog führt DNS-Abfragen für Blocklists durch
+### dnsblog performs DNS queries on blocklists
 ###
 dnsblog   unix  -       -       n       -       0       dnsblog
 ###
-### tlsproxy gibt Postscreen TLS support
+### tlsproxy gives postscreen TLS support
 ###
 tlsproxy  unix  -       -       n       -       0       tlsproxy
 ###

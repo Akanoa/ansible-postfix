@@ -1,5 +1,5 @@
 ##
-## Netzwerkeinstellungen
+## Network configuration
 ##
 
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
@@ -8,7 +8,7 @@ myhostname =  {{ postfix_hostname }}
 
 
 ##
-## Mail-Queue Einstellungen
+## Mail-Queue Parameters
 ##
 
 maximal_queue_lifetime = {{ postfix_max_queue_life }}
@@ -19,13 +19,13 @@ queue_run_delay = {{ postfix_queue_run_delay }}
 
 
 ##
-## TLS Einstellungen
+## TLS Parameters
 ###
 
 tls_ssl_options = NO_COMPRESSION
 tls_high_cipherlist = EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA256:EECDH:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!IDEA:!ECDSA:kEDH:CAMELLIA128-SHA:AES128-SHA
 
-### Ausgehende SMTP-Verbindungen (Postfix als Sender)
+### Outgoing SMTP connections (Postfix as Sender)
 
 smtp_tls_security_level = dane
 smtp_dns_support_level = dnssec
@@ -36,7 +36,7 @@ smtp_tls_ciphers = high
 smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
 
 
-### Eingehende SMTP-Verbindungen
+### Ingoing SMTP connections
 
 smtpd_tls_security_level = may
 smtpd_tls_protocols = !SSLv2, !SSLv3
@@ -49,15 +49,15 @@ smtpd_tls_key_file = {{ postfix_ssl_key }}
 
 
 ##
-## Lokale Mailzustellung an Dovecot
+## Local delivery to Dovecot
 ##
 
 virtual_transport = lmtp:unix:private/dovecot-lmtp
 
 
 ##
-## Milter: DKIM-Signaturen durch OpenDKIM-Milter
-## und Mail-Filter mit Amavis (via amavisd-milter)
+## Milter: DKIM-Signature via OpenDKIM-Milter
+## and Mail-Filter with Amavis (via amavisd-milter)
 ##
 
 milter_default_action = accept
@@ -70,36 +70,36 @@ non_smtpd_milters = {{ postfix_non_smtpd_milters }}
 {% endif %}
 
 ##
-## Server Restrictions für Clients, Empfänger und Relaying
-## (im Bezug auf S2S-Verbindungen. Mailclient-Verbindungen werden in master.cf im Submission-Bereich konfiguriert)
+## Server Restrictions for Clients, Receiver and Relaying
+## (in terms of S2S connections. Mail client connections are configured in master.cf in the submission area)
 ##
 
-### Bedingungen, damit Postfix als Relay arbeitet (für Clients)
+### Conditions for Postfix to work as relay (for clients)
 smtpd_relay_restrictions =      reject_non_fqdn_recipient
                                 reject_unknown_recipient_domain
                                 permit_mynetworks
                                 reject_unauth_destination
 
 
-### Bedingungen, damit Postfix ankommende E-Mails als Empfängerserver entgegennimmt (zusätzlich zu relay-Bedingungen)
-### check_recipient_access prüft, ob ein account sendonly ist
+### Conditions for Postfix to accept incoming emails as a recipient server (in addition to relay conditions)
+### check_recipient_access checks if an account is sendonly
 smtpd_recipient_restrictions = check_recipient_access mysql:/etc/postfix/sql/recipient-access.cf
 
 
-### Bedingungen, die SMTP-Clients erfüllen müssen (sendende Server)
+### Conditions that SMTP clients must meet (sending servers)
 smtpd_client_restrictions =     permit_mynetworks
                                 check_client_access hash:/etc/postfix/without_ptr
                                 reject_unknown_client_hostname
 
 
-### Wenn fremde Server eine Verbindung herstellen, müssen sie einen gültigen Hostnamen im HELO haben.
+### If external servers connect, they must have a valid host name in the HELO.
 smtpd_helo_required = yes
 smtpd_helo_restrictions =   permit_mynetworks
                             reject_invalid_helo_hostname
                             reject_non_fqdn_helo_hostname
                             reject_unknown_helo_hostname
 
-# Clients blockieren, wenn sie versuchen zu früh zu senden
+# Clients will block if they try to send too soon
 smtpd_data_restrictions = reject_unauth_pipelining
 
 
@@ -114,7 +114,7 @@ postscreen_access_list =        permit_mynetworks
 postscreen_blacklist_action = drop
 
 
-# Verbindungen beenden, wenn der fremde Server es zu eilig hat
+# Terminate connections if the foreign server is in a hurry
 postscreen_greet_action = drop
 
 
@@ -125,7 +125,7 @@ postscreen_dnsbl_action = drop
 
 
 ##
-## MySQL Abfragen
+## MySQL configuration
 ##
 
 virtual_alias_maps = mysql:/etc/postfix/sql/aliases.cf
@@ -135,21 +135,20 @@ local_recipient_maps = $virtual_mailbox_maps
 
 
 ##
-## Sonstiges
+## Miscellaneous
 ##
 
-### Maximale Größe der gesamten Mailbox (soll von Dovecot festgelegt werden, 0 = unbegrenzt)
+### Maximum size of the entire mailbox (to be set by Dovecot, 0 = unlimited)
 mailbox_size_limit = 0
 
-### Maximale Größe eingehender E-Mails in Bytes (50 MB)
+### Maximum size of incoming emails in bytes (50 MB)
 message_size_limit = 52428800
 
-### Keine System-Benachrichtigung für Benutzer bei neuer E-Mail
+### No system notification for users with new e-mail
 biff = no
 
-### Nutzer müssen immer volle E-Mail Adresse angeben - nicht nur Hostname
+### Users must always provide full email addresses - not just hostnames
 append_dot_mydomain = no
 
-### Trenn-Zeichen für "Address Tagging"
+### Separator for "Address Tagging"
 recipient_delimiter = +
-

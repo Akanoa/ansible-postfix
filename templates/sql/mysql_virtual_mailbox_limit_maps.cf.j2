@@ -2,4 +2,4 @@ user = {{ postfix_sql_user }}
 password = {{ postfix_sql_user_password }}
 hosts = {{ postfix_sql_host }}:{{ postfix_sql_port }}
 dbname = {{ postfix_sql_db }}
-query = SELECT policy, params FROM tlspolicies WHERE domain = '%s'
+query = SELECT quota FROM mailbox WHERE username='%s' AND active = '1'

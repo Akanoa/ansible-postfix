@@ -65,6 +65,8 @@
     - mysql_virtual_domains_maps.cf
     - mysql_virtual_mailbox_limit_maps.cf
     - mysql_virtual_mailbox_maps.cf
+    - mysql-virtual-sender-maps.cf
+    - mysql-smtpd-sender-login-maps.cf
 
 - name: Run newaliases to creates "/etc/aliases.db"
   shell: newaliases

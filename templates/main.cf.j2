@@ -83,7 +83,7 @@ smtpd_relay_restrictions =      reject_non_fqdn_recipient
 
 ### Conditions for Postfix to accept incoming emails as a recipient server (in addition to relay conditions)
 ### check_recipient_access checks if an account is sendonly
-smtpd_recipient_restrictions = check_recipient_access mysql:/etc/postfix/sql/recipient-access.cf
+smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination
 
 
 ### Conditions that SMTP clients must meet (sending servers)

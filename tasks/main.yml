@@ -44,7 +44,7 @@
     - restart postfix
 
 - name: Create empty Configuration Files.
-  file: path=/etc/postfix/{{ item }} state=touch owner={{ postfix_user }} group={{ postfix_group }} mode="u+rw,g+rw,o+r"
+  file: path=/etc/postfix/{{ item }} state=touch owner=root group=root mode="u+rw,g+rw,o+r"
   with_items:
     - without_ptr
     - postscreen_access
@@ -53,10 +53,10 @@
     - restart postfix
 
 - name: Add sql folder
-  file: path=/etc/postfix/sql state=directory owner={{ postfix_user}} group={{ postfix_group }}
+  file: path=/etc/postfix/sql state=directory owner=root group=root
 
 - name: Add our SQL Templates
-  template: src=sql/{{ item }}.j2 dest=/etc/postfix/sql/{{ item }} owner={{ postfix_user }} group={{ postfix_group }} mode=0660
+  template: src=sql/{{ item }}.j2 dest=/etc/postfix/sql/{{ item }} owner=root group=root mode=0660
   with_items:
     - mysql_virtual_alias_domain_catchall_maps.cf
     - mysql_virtual_alias_domain_mailbox_maps.cf

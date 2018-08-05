@@ -39,7 +39,7 @@
     - main.cf
 
 - name: Add our submission_header_cleanup file
-  copy: src=etc/postfix/submission_header_cleanup dest=/etc/postfix/submission_header_cleanup owner={{ postfix_user }} group={{ postfix_group }} mode=0664
+  copy: src=etc/postfix/submission_header_cleanup dest=/etc/postfix/submission_header_cleanup owner=root group=root mode=0664
   notify:
     - restart postfix
 
